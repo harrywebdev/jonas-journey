@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Blog;
 
 use Illuminate\Support\Str;
 use League\CommonMark\Block\Element\Heading;

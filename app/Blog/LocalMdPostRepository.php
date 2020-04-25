@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Blog;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;

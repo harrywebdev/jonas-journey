@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\PostFactory;
-use App\MdPostFactory;
-use App\PostRepository;
-use App\LocalMdPostRepository;
+use App\Blog\PostFactory;
+use App\Blog\MdPostFactory;
+use App\Blog\PostRepository;
+use App\Blog\LocalMdPostRepository;
 
 class PostServiceProvider extends ServiceProvider
 {

@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Post;
+use App\Blog\Post;
 use Illuminate\View\Component;
 
 class BlogPost extends Component
