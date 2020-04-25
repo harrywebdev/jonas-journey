@@ -7,6 +7,7 @@ use League\CommonMark\Block\Element\Heading;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
 use League\CommonMark\Inline\Element\Text;
 
 class MdPostFactory implements PostFactory
@@ -26,8 +27,11 @@ class MdPostFactory implements PostFactory
      */
     public function __construct()
     {
-        $environment     = Environment::createCommonMarkEnvironment();
-        $this->converter = new CommonMarkConverter();
+        $environment = Environment::createCommonMarkEnvironment();
+        $environment->addExtension(new GithubFlavoredMarkdownExtension());
+        $environment->addExtension(new CustomMarkdownExtension());
+
+        $this->converter = new CommonMarkConverter([], $environment);
         $this->parser    = new DocParser($environment);
     }
 
