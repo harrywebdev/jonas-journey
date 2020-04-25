@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\PostFactory;
-use App\PostRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,13 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(PostFactory::class, function () {
-            return new PostFactory();
-        });
-
-        $this->app->singleton(PostRepository::class, function ($app) {
-            return new PostRepository($app->make(PostFactory::class));
-        });
+        //
     }
 
     /**

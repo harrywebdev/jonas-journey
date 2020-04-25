@@ -2,16 +2,13 @@
 
 namespace App;
 
-
-class PostFactory
+interface PostFactory
 {
     /**
-     * @param string $slug
      * @param string $content
+     * @param string $title
+     * @param string $slug
      * @return Post
      */
-    public function make($slug, $content)
-    {
-        return new Post($slug, $slug, $content);
-    }
+    public function make($content, $title = '', $slug = '');
 }

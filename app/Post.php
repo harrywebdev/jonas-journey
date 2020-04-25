@@ -2,7 +2,6 @@
 
 namespace App;
 
-
 class Post
 {
     /**
@@ -22,14 +21,14 @@ class Post
 
     /**
      * BlogPost constructor.
-     * @param string $slug
      * @param string $title
      * @param string $content
+     * @param string $slug
      */
-    public function __construct($slug, $title, $content)
+    public function __construct($title, $content, $slug)
     {
-        $this->slug    = $slug;
         $this->title   = $title;
         $this->content = $content;
+        $this->slug    = $slug;
     }
 }
