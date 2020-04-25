@@ -48,7 +48,7 @@ class LocalMdPostRepository implements PostRepository
                 $content = Storage::get($filename);
                 $slug    = preg_replace('/blog-posts\\' . DIRECTORY_SEPARATOR . '|\.md/', '', $filename);
 
-                return $this->postFactory->make($content, $slug, $slug);
+                return $this->postFactory->make($content, '', $slug);
             });
 
         return $posts;
