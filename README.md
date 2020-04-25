@@ -8,3 +8,10 @@ Posts are stored in `/storage/app/blog-posts` folder. All `*.md` files there are
 in alphabetical order, so some kind of prefix `001-` for ordering is desirable.
 
 First line ought to be a post heading, otherwise exception is thrown.
+
+### TODO
+
+[ ] Lazy loading of Posts (defer converting to markdown)
+[ ] Caching of FS posts
+[ ] Permalinks and single post showpage
+[ ] Custom block parsers/markdown customizations
