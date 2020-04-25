@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\PostRepository;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    public function index()
+    /**
+     * @param PostRepository $posts
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(PostRepository $posts)
     {
-        return view('blog.index');
+        return view('blog.index', ['posts' => $posts->all()]);
     }
 }
