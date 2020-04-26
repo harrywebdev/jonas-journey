@@ -8,7 +8,8 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&display=swap"
+          rel="stylesheet">
 
     <!-- Styles -->
     <style>
@@ -57,6 +58,8 @@
 </head>
 <body>
 <div class="container">
+    <h1>Jonas's Journey</h1>
+
     @yield('content')
 </div>
 </body>

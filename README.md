@@ -11,7 +11,5 @@ First line ought to be a post heading, otherwise exception is thrown.
 
 ### TODO
 
-[ ] Lazy loading of Posts (defer converting to markdown)
 [ ] Caching of FS posts
-[ ] Permalinks and single post showpage
 [ ] Custom block parsers/markdown customizations

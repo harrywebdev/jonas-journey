@@ -5,7 +5,13 @@ namespace App\Blog;
 interface PostRepository
 {
     /**
-     * @return Post[]
+     * @param string $slug
+     * @return Post
      */
-    public function all();
+    public function find(string $slug): Post;
+
+    /**
+     * @return Post|null
+     */
+    public function first();
 }
