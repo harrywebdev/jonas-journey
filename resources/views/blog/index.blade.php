@@ -3,5 +3,5 @@
 @section('title', 'Blog')
 
 @section('content')
-    <p>There are no posts yet.</p>
+    <p>Nejsou tu zatim zadne zapisky.</p>
 @endsection
