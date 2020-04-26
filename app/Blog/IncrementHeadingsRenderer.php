@@ -9,7 +9,7 @@ use League\CommonMark\Block\Renderer\BlockRendererInterface;
 use League\CommonMark\ElementRendererInterface;
 use League\CommonMark\HtmlElement;
 
-class IncrementHeadingsBlockRenderer implements BlockRendererInterface
+class IncrementHeadingsRenderer implements BlockRendererInterface
 {
 
     /**

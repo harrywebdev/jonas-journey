@@ -55,6 +55,21 @@
             padding: 1em;
         }
 
+        figure {
+            box-shadow: 0 0 10px 5px #f5f5f5;
+            padding: 8px;
+            margin-top: 2em;
+            margin-bottom: 2em;
+        }
+
+        figcaption {
+            padding: 12px;
+            font-size: 0.65em;
+            line-height: 1.25em;
+            color: #7f8c8d;
+            text-align: center;
+        }
+
         .post-footer {
             border-top: 1px solid #eee;
             padding: 1em;
@@ -67,6 +82,13 @@
 
         .post-footer__next {
             margin-left: auto;
+        }
+
+        pre {
+            background: #34495e;
+            color: #fff;
+            padding: 1em;
+            border-radius: 5px;
         }
     </style>
 </head>
