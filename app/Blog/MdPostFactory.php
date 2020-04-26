@@ -36,18 +36,21 @@ class MdPostFactory implements PostFactory
     }
 
     /**
-     * @param string $content
-     * @param string $title
-     * @param string $slug
+     * @param string        $content
+     * @param string        $title
+     * @param string        $slug
+     * @param PostMeta|null $meta
      * @return Post
      */
-    public function make($content, $title = '', $slug = '')
+    public function make(string $content, string $title = '', string $slug = '', PostMeta $meta = null): Post
     {
         $title   = $title ?: $this->getTitleFromContent($content);
         $slug    = $slug ?: Str::slug($title);
         $content = $this->converter->convertToHtml($content);
 
-        return new Post($title, $content, $slug);
+        $meta = $meta ?: new PostMeta();
+
+        return new Post($title, $content, $slug, $meta);
     }
 
     /**

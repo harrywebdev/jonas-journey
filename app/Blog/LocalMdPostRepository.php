@@ -34,17 +34,32 @@ class LocalMdPostRepository implements PostRepository
      */
     public function find(string $slug): Post
     {
-        $postCursor = $this->postsIndex->first(function ($p) use ($slug) {
-            return $p['slug'] === $slug;
-        });
+        $iterator = $this->postsIndex->getIterator();
 
-        if (!$postCursor) {
-            throw new \Exception("Post '$slug' not found");
+        // find our post + prev/next ones
+        while ($iterator->valid()) {
+            $postCursor = $iterator->current();
+
+            if ($postCursor['slug'] === $slug) {
+                $content = Storage::get($postCursor['filename']);
+
+                // get prev + next post slugs
+                $postMeta = new PostMeta();
+                if ($iterator->offsetExists($iterator->key() - 1)) {
+                    $postMeta->setPreviousPostSlug($iterator->offsetGet($iterator->key() - 1)['slug']);
+                }
+
+                if ($iterator->offsetExists($iterator->key() + 1)) {
+                    $postMeta->setNextPostSlug($iterator->offsetGet($iterator->key() + 1)['slug']);
+                }
+
+                return $this->postFactory->make($content, '', $slug, $postMeta);
+            }
+
+            $iterator->next();
         }
 
-        $content = Storage::get($postCursor['filename']);
-
-        return $this->postFactory->make($content, '', $slug);
+        throw new \Exception("Post '$slug' not found");
     }
 
     /**

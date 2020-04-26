@@ -54,6 +54,20 @@
             background: #fff;
             padding: 1em;
         }
+
+        .post-footer {
+            border-top: 1px solid #eee;
+            padding: 1em;
+            margin-top: 1em;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-footer__next {
+            margin-left: auto;
+        }
     </style>
 </head>
 <body>

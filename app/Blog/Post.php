@@ -20,15 +20,22 @@ class Post
     public $slug;
 
     /**
-     * BlogPost constructor.
-     * @param string $title
-     * @param string $content
-     * @param string $slug
+     * @var PostMeta
      */
-    public function __construct($title, $content, $slug)
+    public $meta;
+
+    /**
+     * BlogPost constructor.
+     * @param string   $title
+     * @param string   $content
+     * @param string   $slug
+     * @param PostMeta $meta
+     */
+    public function __construct(string $title, string $content, string $slug, PostMeta $meta)
     {
         $this->title   = $title;
         $this->content = $content;
         $this->slug    = $slug;
+        $this->meta    = $meta;
     }
 }
