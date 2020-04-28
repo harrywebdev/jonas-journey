@@ -36,4 +36,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return bool
+     */
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->email === config('auth.admin_email');
+    }
 }

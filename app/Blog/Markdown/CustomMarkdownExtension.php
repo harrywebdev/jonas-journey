@@ -17,6 +17,8 @@ class CustomMarkdownExtension implements ExtensionInterface
      */
     public function register(ConfigurableEnvironmentInterface $environment)
     {
+        $environment->addBlockParser(new PrivateBlockParser(), 50);
+        $environment->addBlockRenderer(PrivateBlock::class, new PrivateBlockRenderer(), 10);
         $environment->addBlockRenderer(Heading::class, new IncrementHeadingsRenderer(), 50);
         $environment->addInlineRenderer(Image::class, new ImageCaptionsRenderer(), 50);
         $environment->addInlineParser(new VideoParser(), 10);
