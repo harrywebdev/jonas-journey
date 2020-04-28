@@ -1,11 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "harrywebdev/jonas_journey",
+    "description": "Simple blog to document Jonas's journey.",
+    "version": "0.1.0",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
@@ -13,7 +10,8 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "league/commonmark": "^1.4"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/blog');
+
+Route::get('/blog', 'BlogController@index')->name('blog.index');
+Route::get('/blog/{slug}', 'BlogController@show')->name('blog.show');
