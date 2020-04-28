@@ -7,3 +7,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Basic blog functionality (publish posts written in markdown)
+- Simple authentication and admin authorization (private posts) 

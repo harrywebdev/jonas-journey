@@ -18,6 +18,7 @@ class BlogController extends Controller
      */
     public function __construct(PostRepository $posts)
     {
+        $this->middleware('auth');
         $this->posts = $posts;
     }
 
@@ -46,6 +47,7 @@ class BlogController extends Controller
 
             return view('blog.show', ['post' => $post]);
         } catch (\Exception $e) {
+            dd($e);
             abort(404);
         }
     }
