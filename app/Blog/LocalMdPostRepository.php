@@ -3,6 +3,7 @@
 namespace App\Blog;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class LocalMdPostRepository implements PostRepository
@@ -81,19 +82,23 @@ class LocalMdPostRepository implements PostRepository
      */
     private function retrievePostsFromFilesystem(): Collection
     {
-        $posts = collect(Storage::allFiles('blog-posts'))
-            ->filter(function ($filename) {
-                return preg_match('/\.md$/', $filename);
-            })
-            ->sort()
-            ->map(function ($filename) {
-                return [
-                    'filename' => $filename,
-                    'slug'     => preg_replace('/blog-posts\\' . DIRECTORY_SEPARATOR . '|\.md/', '', $filename),
-                ];
-            });
+        if (Cache::has('blog_posts_index')) {
+            return Cache::get('blog_posts_index');
+        }
 
-        return $posts;
+        return Cache::remember('blog_posts_index', 60 * 60 * 2, function () {
+            return collect(Storage::allFiles('blog-posts'))
+                ->filter(function ($filename) {
+                    return preg_match('/\.md$/', $filename);
+                })
+                ->sort()
+                ->map(function ($filename) {
+                    return [
+                        'filename' => $filename,
+                        'slug'     => preg_replace('/blog-posts\\' . DIRECTORY_SEPARATOR . '|\.md/', '', $filename),
+                    ];
+                });
+        });
     }
 
 }
