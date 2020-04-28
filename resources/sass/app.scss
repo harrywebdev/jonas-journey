@@ -1,5 +1,12 @@
 // Variables
 @import 'variables';
 
+// TODO: import only what we need, this all-import is dev-only
+@import "../../node_modules/bulma/bulma";
+//@import "../../node_modules/bulma/sass/utilities/_all";
+//@import "../../node_modules/bulma/sass/base/_all";
+//@import "../../node_modules/bulma/sass/form/_all";
+//@import "../../node_modules/bulma/sass/elements/button";
+
 @import 'layout';
 

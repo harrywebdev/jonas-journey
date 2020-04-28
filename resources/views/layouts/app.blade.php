@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') &ndash; Jonas's Journey</title>
+    <title>@yield('title') &ndash; Jonasova cesta</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -21,11 +21,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<main class="container">
-    <h1>Jonas's Journey</h1>
+<main class="container" id="app">
+    <h1>Jonasova cesta</h1>
 
     @yield('content')
 </main>
-
 </body>
 </html>

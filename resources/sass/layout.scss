@@ -13,6 +13,7 @@ h1 {
   line-height: 2em;
   font-weight: 700;
   margin-top: 0;
+  margin-bottom: 0.5em;
   border-bottom: 1px solid #eee;
 }
 
@@ -21,10 +22,15 @@ h2 {
   line-height: 1.5em;
   font-weight: 600;
   margin-top: 0;
+  margin-bottom: 0.5em;
 }
 
 a {
   color: #27ae60;
+}
+
+p {
+  margin-bottom: 0.5em;
 }
 
 video {
@@ -49,13 +55,13 @@ img {
 figure {
   box-shadow: 0 0 10px 5px #f5f5f5;
   padding: 8px;
-  margin-top: 2em;
-  margin-bottom: 2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 figcaption {
-  padding: 12px;
-  font-size: 0.65em;
+  padding: 8px 12px 16px;
+  font-size: 0.75em;
   line-height: 1.25em;
   color: #7f8c8d;
   text-align: center;
@@ -80,4 +86,9 @@ pre {
   color: #fff;
   padding: 1em;
   border-radius: 5px;
+  margin-bottom: 0.5em;
+}
+
+.login-form {
+  max-width: 300px;
 }

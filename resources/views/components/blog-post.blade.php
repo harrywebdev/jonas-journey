@@ -1,3 +1,3 @@
-<article class="blog-post">
+<article class="blog-post content">
     {!! $post->content !!}
 </article>
