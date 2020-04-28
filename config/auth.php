@@ -114,4 +114,5 @@ return [
 
     'password_timeout' => 10800,
 
+    'default_email' => env('EMAIL_VISITOR')
 ];

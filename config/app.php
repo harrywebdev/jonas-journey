@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Jonas\'s Journey'),
 
     /*
     |--------------------------------------------------------------------------
@@ -231,4 +231,23 @@ return [
 
     ],
 
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'PASSWORD_VISITOR',
+            'PASSWORD_ADMIN',
+        ],
+
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'PASSWORD_VISITOR',
+            'PASSWORD_ADMIN',
+        ],
+
+        '_POST' => [
+            'password',
+        ],
+    ],
 ];

@@ -7,15 +7,17 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
+            <input type="hidden" name="email" value="{{ config('auth.default_email') }}">
+
             <div class="field">
                 <label for="password" class="label">{{ __('Prihlaseni') }}</label>
                 <div class="control">
-                    <input id="password" type="password" class="input @error('password') is-danger @enderror"
+                    <input id="password" type="password" class="input @error('email') is-danger @enderror"
                            name="password" required autocomplete="current-password" placeholder="Heslo">
 
                 </div>
 
-                @error('password')
+                @error('email')
                 <p class="help is-danger">{{ $message }}</p>
                 @enderror
             </div>
