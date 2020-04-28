@@ -18,6 +18,7 @@ class BlogController extends Controller
      */
     public function __construct(PostRepository $posts)
     {
+        $this->middleware('auth');
         $this->posts = $posts;
     }
 
