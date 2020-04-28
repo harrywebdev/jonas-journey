@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') &ndash; Jonasova cesta</title>
+    <title>@yield('title') &ndash; {{ config('app.name') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -22,9 +22,20 @@
 </head>
 <body>
 <main class="container" id="app">
-    <h1>Jonasova cesta</h1>
+    <div class="main-content">
+        <h1>{{ config('app.name') }}</h1>
 
-    @yield('content')
+        @yield('content')
+    </div>
 </main>
+<footer class="container footer">
+    <p>
+        {{ config('app.name') }} &copy; {{ date('Y') }}
+    </p>
+
+    @auth
+        <p><a href="{{ route('logout') }}">{{ __('Odhlasit') }}</a></p>
+    @endauth
+</footer>
 </body>
 </html>
