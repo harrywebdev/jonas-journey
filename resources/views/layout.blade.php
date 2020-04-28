@@ -42,6 +42,12 @@
             color: #27ae60;
         }
 
+        video {
+            width: 100%;
+            height: auto;
+            max-height: 480px;
+        }
+
         img {
             max-width: 100%;
             height: auto;

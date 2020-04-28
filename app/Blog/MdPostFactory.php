@@ -2,6 +2,7 @@
 
 namespace App\Blog;
 
+use App\Blog\Markdown\CustomMarkdownExtension;
 use Illuminate\Support\Str;
 use League\CommonMark\Block\Element\Heading;
 use League\CommonMark\CommonMarkConverter;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Blog;
+namespace App\Blog\Markdown;
 
 
 use League\CommonMark\Block\Element\AbstractBlock;
