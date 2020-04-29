@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title') &ndash; {{ config('app.name') }}</title>
+    <title>@yield('title') &ndash; {{ __('global.title') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -23,18 +23,18 @@
 <body>
 <main class="container" id="app">
     <div class="main-content">
-        <h1>{{ config('app.name') }}</h1>
+        <h1>{{ __('global.title') }}</h1>
 
         @yield('content')
     </div>
 </main>
 <footer class="container footer">
     <p>
-        {{ config('app.name') }} &copy; {{ date('Y') }}
+        {{ __('global.title') }} &copy; {{ date('Y') }}
     </p>
 
     @auth
-        <p><a href="{{ route('logout') }}">{{ __('Odhlasit') }}</a></p>
+    <p><a href="{{ route('logout') }}">{{ __('global.actions.logout') }}</a></p>
     @endauth
 </footer>
 </body>

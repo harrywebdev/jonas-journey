@@ -10,11 +10,11 @@
             <input type="hidden" name="email" value="{{ config('auth.default_email') }}">
 
             <div class="field">
-                <label for="password" class="label">{{ __('Prihlaseni') }}</label>
+                <label for="password" class="label">{{ __('global.login.title') }}</label>
                 <div class="control">
                     <input id="password" type="password" class="input @error('email') is-danger @enderror"
-                           name="password" required autocomplete="current-password" placeholder="Heslo">
-
+                           name="password" required autocomplete="current-password"
+                           placeholder="{{ __('global.login.fields.password') }}">
                 </div>
 
                 @error('email')
@@ -25,7 +25,7 @@
             <div class="field is-grouped">
                 <p class="control">
                     <button type="submit" class="button is-primary">
-                        {{ __('Prihlasit') }}
+                        {{ __('global.login.actions.login') }}
                     </button>
                 </p>
             </div>

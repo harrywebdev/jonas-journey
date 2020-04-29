@@ -3,5 +3,5 @@
 @section('title', 'Blog')
 
 @section('content')
-    <p>Nejsou tu zatim zadne zapisky.</p>
+    <p>{{ __('global.posts.is_empty') }}</p>
 @endsection
