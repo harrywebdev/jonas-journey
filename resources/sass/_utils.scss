@@ -1,0 +1,6 @@
+// responsive breakpoints
+@mixin screen-gt-xs {
+  @media (min-width: 640px) {
+    @content;
+  }
+}

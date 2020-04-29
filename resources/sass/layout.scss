@@ -4,33 +4,43 @@ html, body {
   font-family: $font-family-serif;
   font-weight: 400;
   margin: 0;
-  font-size: $font-size-base;
+  font-size: $font-size-base-mobile;
   line-height: $line-height-base;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+
+  @include screen-gt-xs {
+    font-size: $font-size-base-desktop;
+  }
 }
 
-h1 {
-  font-size: 2em;
-  line-height: 2em;
-  font-weight: 700;
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  border-bottom: 1px solid $color-border;
+h1.title {
+  margin: 0 !important;
+  padding: 2rem 1rem 1rem;
+  font-size: 2rem;
+
+  @include screen-gt-xs {
+    font-size: 3rem;
+  }
 }
 
-h2 {
-  font-size: 1.5em;
-  line-height: 1.5em;
+.blog-post h2 {
+  font-size: 1.4em;
   font-weight: 600;
   margin-top: 0;
   margin-bottom: 0.5em;
+  border-bottom: 1px solid $color-border;
+  padding-bottom: 0.1em;
+
+  @include screen-gt-xs {
+    font-size: 1.5em;
+  }
 }
 
 a {
   color: $color-primary;
-}
-
-p {
-  margin-bottom: 0.5em;
 }
 
 video {
@@ -45,18 +55,22 @@ img {
   display: block;
 }
 
-figure {
+.blog-post figure {
   box-shadow: 0 0 10px 5px #f5f5f5;
   padding: 8px;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+
+  @include screen-gt-xs {
+    margin-left: 2em;
+    margin-right: 2em;
+  }
 }
 
 figcaption {
   padding: 8px 12px 16px;
   font-size: 0.75em;
-  line-height: 1.25em;
-  color: #7f8c8d;
+  color: $color-grey-text;
   text-align: center;
 }
 
@@ -69,13 +83,17 @@ pre {
 }
 
 .container {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 100%;
+  flex-shrink: 1;
+
+  @include screen-gt-xs {
+    max-width: $container-max-width;
+  }
 }
 
 .main-content {
-  background: #fff;
-  padding: 1em;
+  background: $color-content-bg;
+  padding: 2rem 1rem;
 }
 
 .post-footer {
@@ -105,4 +123,5 @@ pre {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }

@@ -22,9 +22,9 @@
 </head>
 <body>
 <main class="container" id="app">
-    <div class="main-content">
-        <h1>{{ __('global.title') }}</h1>
+    <h1 class="title">{{ __('global.title') }}</h1>
 
+    <div class="main-content">
         @yield('content')
     </div>
 </main>
