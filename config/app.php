@@ -13,8 +13,8 @@ return [
     |
     */
 
-        'name' => env('APP_NAME', 'Jonas\'s Journey'),
-//    'name' => __('global.title'),
+    'name' => env('APP_NAME', 'Jonas\'s Journey'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -80,7 +80,8 @@ return [
     |
     */
 
-    'locale' => 'cs',
+    'locale'      => 'cs',
+    'time_locale' => 'cs_CZ',
 
     /*
     |--------------------------------------------------------------------------

@@ -4,6 +4,7 @@ namespace App\Blog;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 class Post extends Model
 {
@@ -36,7 +37,10 @@ class Post extends Model
      */
     public function getTitleAttribute($value): string
     {
-        return $value ?: $this->published_on->format('d/m/Y');
+        $birthdate  = Carbon::createMidnightDate(2020, 4, 15);
+        $diffInDays = $birthdate->diffInDays($this->published_on);
+
+        return $value ?: $this->published_on->formatLocalized('%e. %B %Y, %A') . " (den $diffInDays)";
     }
 
     /**
