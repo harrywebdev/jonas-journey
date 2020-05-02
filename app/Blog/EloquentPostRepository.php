@@ -12,7 +12,7 @@ class EloquentPostRepository implements PostRepository
      */
     public function find(string $slug): Post
     {
-        return Post::where('slug', $slug)->firstOrFail();
+        return $this->decorateWithPostMeta(Post::where('slug', $slug)->firstOrFail());
     }
 
     /**
@@ -20,6 +20,34 @@ class EloquentPostRepository implements PostRepository
      */
     public function first(): ?Post
     {
-        return Post::first();
+        return $this->decorateWithPostMeta(Post::first());
+    }
+
+    /**
+     * @param Post|null $post
+     * @return Post|null
+     */
+    private function decorateWithPostMeta(?Post $post): ?Post
+    {
+        if (!$post) {
+            return null;
+        }
+
+        $previous = Post::where('id', '<', $post->id)->orderBy('id', 'desc')->first();
+        $next     = Post::where('id', '>', $post->id)->orderBy('id')->first();
+
+        // get prev + next post slugs
+        $postMeta = new PostMeta();
+        if ($previous) {
+            $postMeta->setPreviousPostSlug($previous->slug);
+        }
+
+        if ($next) {
+            $postMeta->setNextPostSlug($next->slug);
+        }
+
+        $post->meta = $postMeta;
+
+        return $post;
     }
 }

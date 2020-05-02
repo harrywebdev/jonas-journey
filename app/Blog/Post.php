@@ -26,6 +26,11 @@ class Post extends Model
     ];
 
     /**
+     * @var ?PostMeta
+     */
+    public $meta;
+
+    /**
      * @param $value
      * @return string
      */
