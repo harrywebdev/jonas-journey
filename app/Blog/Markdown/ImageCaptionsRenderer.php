@@ -36,7 +36,7 @@ class ImageCaptionsRenderer implements InlineRendererInterface, ConfigurationAwa
         if ($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($inline->getUrl())) {
             $attrs['src'] = '';
         } else {
-            $attrs['src'] = $inline->getUrl();
+            $attrs['src'] = asset('storage/media/' . basename($inline->getUrl()));
         }
 
         $alt          = $htmlRenderer->renderInlines($inline->children());
