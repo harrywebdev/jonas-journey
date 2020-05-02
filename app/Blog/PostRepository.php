@@ -13,5 +13,5 @@ interface PostRepository
     /**
      * @return Post|null
      */
-    public function first();
+    public function first(): ?Post;
 }

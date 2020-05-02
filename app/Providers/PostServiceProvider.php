@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
+use App\Blog\EloquentPostRepository;
+use App\Blog\MarkdownPostContentRenderer;
+use App\Blog\PostContentRenderer;
 use Illuminate\Support\ServiceProvider;
-use App\Blog\PostFactory;
-use App\Blog\MdPostFactory;
 use App\Blog\PostRepository;
-use App\Blog\LocalMdPostRepository;
 
 class PostServiceProvider extends ServiceProvider
 {
@@ -17,12 +17,12 @@ class PostServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(PostFactory::class, function () {
-            return new MdPostFactory();
+        $this->app->singleton(PostContentRenderer::class, function () {
+            return new MarkdownPostContentRenderer();
         });
 
         $this->app->singleton(PostRepository::class, function ($app) {
-            return new LocalMdPostRepository($app->make(PostFactory::class));
+            return new EloquentPostRepository();
         });
     }
 

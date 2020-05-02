@@ -2,40 +2,48 @@
 
 namespace App\Blog;
 
-class Post
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Post extends Model
 {
-    /**
-     * @var string
-     */
-    public $title;
+    use SoftDeletes;
 
     /**
-     * @var string
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
      */
-    public $content;
+    protected $guarded = ['id'];
 
     /**
-     * @var string
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
      */
-    public $slug;
+    protected $dates = [
+        'published_on',
+    ];
 
     /**
-     * @var PostMeta
+     * @var ?PostMeta
      */
     public $meta;
 
     /**
-     * BlogPost constructor.
-     * @param string   $title
-     * @param string   $content
-     * @param string   $slug
-     * @param PostMeta $meta
+     * @param $value
+     * @return string
      */
-    public function __construct(string $title, string $content, string $slug, PostMeta $meta)
+    public function getTitleAttribute($value): string
     {
-        $this->title   = $title;
-        $this->content = $content;
-        $this->slug    = $slug;
-        $this->meta    = $meta;
+        return $value ?: $this->published_on->format('d/m/Y');
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentHtmlAttribute(): string
+    {
+        return app()->make(PostContentRenderer::class)->render($this->attributes['content']);
     }
 }

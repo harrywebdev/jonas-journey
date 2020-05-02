@@ -31,14 +31,13 @@ class VideoRenderer implements InlineRendererInterface, ConfigurationAwareInterf
             throw new \InvalidArgumentException('Incompatible inline type: ' . \get_class($inline));
         }
 
-
         $attrs = $inline->getData('attributes', ['type' => 'video/mp4']);
 
         $forbidUnsafeLinks = !$this->config->get('allow_unsafe_links');
         if ($forbidUnsafeLinks && RegexHelper::isLinkPotentiallyUnsafe($inline->getUrl())) {
             $attrs['src'] = '';
         } else {
-            $attrs['src'] = $inline->getUrl();
+            $attrs['src'] = asset('storage/media/' . basename($inline->getUrl()));
         }
 
         $videoSourceElement = new HtmlElement('source', $attrs);
