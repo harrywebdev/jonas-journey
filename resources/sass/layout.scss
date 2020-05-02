@@ -98,15 +98,18 @@ pre {
 
 .post-footer {
   border-top: 1px solid $color-border;
-  padding: 1em;
   margin-top: 1em;
+}
+
+.post-pagination {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 1em;
 }
 
-.post-footer__next {
+.post-pagination__next {
   margin-left: auto;
 }
 
