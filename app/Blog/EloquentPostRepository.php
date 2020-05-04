@@ -20,7 +20,7 @@ class EloquentPostRepository implements PostRepository
      */
     public function first(): ?Post
     {
-        return $this->decorateWithPostMeta(Post::first());
+        return $this->decorateWithPostMeta(Post::orderBy('published_on')->first());
     }
 
     /**
