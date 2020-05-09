@@ -19,8 +19,9 @@ return [
 
     'posts' => [
         'is_empty'            => 'Nejsou tu zatím žádné zápisky.',
-        'go_to_next_post'     => 'Další →',
-        'go_to_previous_post' => '← Předchozí',
+        'go_to_next_post'     => '→',
+        'go_to_previous_post' => '←',
+        'go_to_index'         => 'Rejstřík',
     ],
 
     'errors' => [

@@ -23,7 +23,9 @@
 </head>
 <body>
 <main class="container" id="app">
-    <h1 class="title">{{ __('global.title') }}</h1>
+    <h1 class="title">
+        <a href="{{ route('home') }}">{{ __('global.title') }}</a>
+    </h1>
 
     <div class="main-content">
         @yield('content')

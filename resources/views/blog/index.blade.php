@@ -6,7 +6,7 @@
     @if ($posts->count())
         <ul>
             @foreach ($posts as $post)
-                <li><a href="{{ route('blog.show', ['slug' => $post->slug]) }}">{{ $post->title }}</a></li>
+                <li><a class="posts-index__link" href="{{ route('blog.show', ['slug' => $post->slug]) }}">{{ $post->title }}</a></li>
             @endforeach
         </ul>
     @else

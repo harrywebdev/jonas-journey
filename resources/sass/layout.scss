@@ -24,6 +24,10 @@ h1.title {
   @include screen-gt-xs {
     font-size: 3rem;
   }
+
+  a {
+    color: $color-secondary;
+  }
 }
 
 .blog-post h2 {
@@ -41,10 +45,6 @@ h1.title {
 
 a {
   color: $color-primary;
-
-  &:visited {
-    color: $color-secondary;
-  }
 }
 
 video {
@@ -91,7 +91,7 @@ pre {
   flex-shrink: 1;
 
   @include screen-gt-xs {
-    max-width: $container-max-width;
+    width: $container-max-width;
   }
 }
 
@@ -110,11 +110,24 @@ pre {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 1em;
+  padding: 0.5em;
+  font-size: 1em;
+
+  span, a {
+    flex: 1 1 33%;
+  }
+
+  @include screen-gt-xs {
+    padding: 1em;
+  }
 }
 
 .post-pagination__next {
-  margin-left: auto;
+  text-align: right;
+}
+
+.post-pagination__index {
+  text-align: center;
 }
 
 .login-form {
@@ -131,4 +144,10 @@ pre {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+
+.posts-index__link {
+  &:visited {
+    color: $color-secondary;
+  }
 }
