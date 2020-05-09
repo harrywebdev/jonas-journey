@@ -41,6 +41,10 @@ h1.title {
 
 a {
   color: $color-primary;
+
+  &:visited {
+    color: $color-secondary;
+  }
 }
 
 video {

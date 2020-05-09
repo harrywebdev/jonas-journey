@@ -14,4 +14,9 @@ interface PostRepository
      * @return Post|null
      */
     public function first(): ?Post;
+
+    /**
+     * @return Post[]
+     */
+    public function all(): iterable;
 }

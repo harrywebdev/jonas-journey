@@ -27,13 +27,9 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $firstPost = $this->posts->first();
+        $posts = $this->posts->all();
 
-        if ($firstPost) {
-            return redirect()->route('blog.show', $firstPost->slug);
-        }
-
-        return view('blog.index');
+        return view('blog.index', ['posts' => $posts]);
     }
 
     /**

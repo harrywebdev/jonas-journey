@@ -50,4 +50,12 @@ class EloquentPostRepository implements PostRepository
 
         return $post;
     }
+
+    /**
+     * @return Post[]
+     */
+    public function all(): iterable
+    {
+        return Post::orderBy('published_on')->get();
+    }
 }
