@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        setlocale(LC_TIME, config('app.time_locale'));
+        setlocale(LC_ALL, config('app.php_locale'));
     }
 }
