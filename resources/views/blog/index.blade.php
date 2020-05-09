@@ -6,7 +6,11 @@
     @if ($posts->count())
         <ul>
             @foreach ($posts as $post)
-                <li><a class="posts-index__link" href="{{ route('blog.show', ['slug' => $post->slug]) }}">{{ $post->title }}</a></li>
+                <li class="posts-index__item {{ $post->slug == $lastPostSlug ? 'has-pointer' : '' }}">
+                    <a class="posts-index__link" href="{{ route('blog.show', ['slug' => $post->slug]) }}">
+                        {{ $post->title }}
+                    </a>
+                </li>
             @endforeach
         </ul>
     @else

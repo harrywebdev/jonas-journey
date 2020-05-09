@@ -128,6 +128,7 @@ pre {
 
 .post-pagination__index {
   text-align: center;
+  font-size: 0.8em;
 }
 
 .login-form {
@@ -144,6 +145,21 @@ pre {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+}
+
+.posts-index__item {
+  padding-left: 20px;
+  position: relative;
+
+  &.has-pointer:before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    content: "→";
+    color: $color-grey-text;
+    font-size: 0.65em;
+    transform: translateY(-50%);
+  }
 }
 
 .posts-index__link {
