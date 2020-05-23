@@ -14,7 +14,12 @@ class EloquentPostRepository implements PostRepository
      */
     public function find(string $slug): Post
     {
-        return $this->decorateWithPostMeta(Post::where('slug', $slug)->firstOrFail());
+        $post = Post::where('slug', $slug);
+        if (!Gate::allows('sees-drafts')) {
+            $post = $post->where('status', '=', 'published');
+        }
+
+        return $this->decorateWithPostMeta($post->firstOrFail());
     }
 
     /**
@@ -22,7 +27,12 @@ class EloquentPostRepository implements PostRepository
      */
     public function first(): ?Post
     {
-        return $this->decorateWithPostMeta(Post::orderBy('published_on')->first());
+        $post = Post::orderBy('published_on');
+        if (!Gate::allows('sees-drafts')) {
+            $post = $post->where('status', '=', 'published');
+        }
+
+        return $this->decorateWithPostMeta($post->first());
     }
 
     /**
@@ -35,8 +45,16 @@ class EloquentPostRepository implements PostRepository
             return null;
         }
 
-        $previous = Post::where('id', '<', $post->id)->orderBy('id', 'desc')->first();
-        $next     = Post::where('id', '>', $post->id)->orderBy('id')->first();
+        $previous = Post::where('id', '<', $post->id);
+        $next     = Post::where('id', '>', $post->id);
+
+        if (!Gate::allows('sees-drafts')) {
+            $previous = $previous->where('status', '=', 'published');
+            $next     = $next->where('status', '=', 'published');
+        }
+
+        $previous = $previous->orderBy('id', 'desc')->first();
+        $next     = $next->orderBy('id')->first();
 
         // get prev + next post slugs
         $postMeta = new PostMeta();
