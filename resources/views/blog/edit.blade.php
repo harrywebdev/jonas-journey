@@ -3,7 +3,7 @@
 @section('title', __('global.posts.edit'))
 
 @section('content')
-    <article class="blog-post content">
+    <article class="blog-post content post-editable js-image-upload-area">
         <h2>{{ __('global.posts.edit') }}</h2>
 
         @if ($errors->any())
@@ -60,7 +60,8 @@
             <div class="field">
                 <label for="content" class="label">{{ __('global.posts.form.content') }}</label>
                 <div class="control">
-                    <textarea id="content" class="textarea @error('content') is-danger @enderror"
+                    <textarea id="content"
+                              class="textarea @error('content') is-danger @enderror js-image-upload-textarea"
                               name="content" required rows="20"
                               placeholder="{{ __('global.posts.form.content') }}">{{ old('content', $post->content) }}</textarea>
                 </div>
@@ -70,9 +71,23 @@
                 @enderror
             </div>
 
+            <div class="field">
+                <div class="file is-small">
+                    <label class="file-label">
+                        <input class="file-input js-image-upload-input" type="file" multiple name="images"
+                               accept="image/*">
+                        <span class="file-cta">
+                            <span class="file-label">
+                                {{ __('global.posts.form.upload_file') }}
+                            </span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
             <div class="admin-post-actions">
                 <button class="button is-primary" type="submit">{{ __('global.actions.save') }}</button>
-                <a class="button is-danger"
+                <a class="button is-small is-danger"
                    href="{{ route('blog.destroy', ['slug' => $post->slug]) }}">{{ __('global.actions.delete') }}</a>
                 <a class="button is-warning"
                    href="{{ route('blog.show', ['slug' => $post->slug]) }}">{{ __('global.actions.cancel') }}</a>

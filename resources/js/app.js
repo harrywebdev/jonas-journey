@@ -5,28 +5,39 @@
  */
 
 require('./bootstrap');
+const {preventDefaults, highlight, unhighlight} = require('./utils');
+const {imageUpload} = require('./image-upload');
 
-window.Vue = require('vue');
+var imageUploadText = document.querySelector('.js-image-upload-textarea');
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+var imageUploadInput = document.querySelector('.js-image-upload-input');
+if (imageUploadInput && imageUploadText) {
+    imageUploadInput.addEventListener('change', function () {
+        imageUpload(this.files, imageUploadText);
+    });
+}
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+var imageUploadArea = document.querySelector('.js-image-upload-area');
+if (imageUploadArea && imageUploadText) {
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        imageUploadArea.addEventListener(eventName, preventDefaults, false)
+    });
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+    ['dragenter', 'dragover'].forEach(eventName => {
+        imageUploadArea.addEventListener(eventName, highlight.bind(this, imageUploadArea), false)
+    });
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+    ['dragleave', 'drop'].forEach(eventName => {
+        imageUploadArea.addEventListener(eventName, unhighlight.bind(this, imageUploadArea), false)
+    });
 
-const app = new Vue({
-    el: '#app',
-});
+    imageUploadArea.addEventListener('drop', handleDrop, false)
+
+    function handleDrop(e) {
+        let dt = e.dataTransfer;
+        let files = dt.files;
+
+        imageUpload(files, imageUploadText);
+    }
+}
+

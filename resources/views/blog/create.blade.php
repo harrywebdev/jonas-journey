@@ -3,7 +3,7 @@
 @section('title', __('global.posts.add_new'))
 
 @section('content')
-    <article class="blog-post content">
+    <article class="blog-post content post-editable js-image-upload-area">
         <h2>{{ __('global.posts.add_new') }}</h2>
 
         @if ($errors->any())
@@ -58,7 +58,8 @@
             <div class="field">
                 <label for="content" class="label">{{ __('global.posts.form.content') }}</label>
                 <div class="control">
-                    <textarea id="content" class="textarea @error('content') is-danger @enderror"
+                    <textarea id="content"
+                              class="textarea @error('content') is-danger @enderror js-image-upload-textarea"
                               name="content" required rows="20"
                               placeholder="{{ __('global.posts.form.content') }}">{{ old('content') }}</textarea>
                 </div>
@@ -66,6 +67,20 @@
                 @error('content')
                 <p class="help is-danger">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <div class="field">
+                <div class="file is-small">
+                    <label class="file-label">
+                        <input class="file-input js-image-upload-input" type="file" name="images" multiple
+                               accept="image/*">
+                        <span class="file-cta">
+                            <span class="file-label">
+                                {{ __('global.posts.form.upload_file') }}
+                            </span>
+                        </span>
+                    </label>
+                </div>
             </div>
 
             <div class="admin-post-actions">

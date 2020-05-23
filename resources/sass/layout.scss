@@ -30,6 +30,15 @@ h1.title {
     }
 }
 
+.post-editable {
+    border: 2px dashed transparent;
+
+    &.highlight {
+        border: 2px dashed $color-primary;
+        background: $color-border;
+    }
+}
+
 .blog-post h2 {
     font-size: 1.4em;
     font-weight: 600;

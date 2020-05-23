@@ -25,6 +25,16 @@ Route::get('/blog/{slug}/edit', 'BlogController@edit')->name('blog.edit');
 Route::put('/blog/{slug}', 'BlogController@update')->name('blog.update');
 Route::get('/blog/{slug}/delete', 'BlogController@destroy')->name('blog.destroy');
 
+Route::post('/image', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'file' => 'required|file',
+    ]);
+
+    $path = $request->file->store('public/media');
+
+    return response()->json(['image' => ['path' => $path]]);
+});
+
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 

@@ -34,6 +34,7 @@ return [
             'published_on' => 'Datum publikace',
             'content'      => 'Obsah',
             'status'       => 'Stav',
+            'upload_file'  => 'Nahrát obrázek',
         ],
         'status'              => [
             'published' => 'Publikováno',
