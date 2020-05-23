@@ -19,4 +19,10 @@ interface PostRepository
      * @return Post[]
      */
     public function all(): iterable;
+
+    /**
+     * @param array $data
+     * @return Post
+     */
+    public function create(array $data): Post;
 }

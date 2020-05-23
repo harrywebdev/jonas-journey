@@ -3,6 +3,12 @@
 @section('title', 'Blog')
 
 @section('content')
+    @can('create', \App\Blog\Post::class)
+        <div class="admin-top-nav">
+            <a href="{{ route('blog.create') }}" class="button is-inverted is-link is-small">{{ __('global.posts.add_new') }}</a>
+        </div>
+    @endcan
+
     @if ($posts->count())
         <ul>
             @foreach ($posts as $post)

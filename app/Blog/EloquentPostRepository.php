@@ -2,6 +2,7 @@
 
 namespace App\Blog;
 
+use Illuminate\Support\Str;
 
 class EloquentPostRepository implements PostRepository
 {
@@ -57,5 +58,18 @@ class EloquentPostRepository implements PostRepository
     public function all(): iterable
     {
         return Post::orderBy('published_on')->get();
+    }
+
+    /**
+     * @param array $data
+     * @return Post
+     */
+    public function create(array $data): Post
+    {
+        if (!isset($data['slug'])) {
+            $data['slug'] = isset($data['title']) && $data['title'] ? Str::slug($data['title']) : $data['published_on'];
+        }
+        
+        return Post::create($data);
     }
 }

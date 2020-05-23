@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Blog\Post;
 use App\Blog\PostRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Validation\Rule;
 
 class BlogController extends Controller
 {
@@ -57,23 +59,40 @@ class BlogController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
         $this->authorize('create', Post::class);
 
+        return view('blog.create', [
+            'defaultPublishedOn' => Carbon::now()->format('Y-m-d'),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $this->authorize('create', Post::class);
+
+        $data = $request->validate([
+            'published_on' => 'required|date_format:Y-m-d',
+            'content'      => 'required|max:65535',
+            'status'       => ['required', Rule::in(['published', 'draft'])],
+        ]);
+
+        try {
+            $post = $this->posts->create($data);
+
+            return redirect()->route('blog.show', ['slug' => $post->slug]);
+        } catch (\Exception $e) {
+            return redirect()->route('blog.create')->withInput($data)->withErrors($e->getMessage());
+        }
     }
 
     /**
