@@ -32,4 +32,10 @@ interface PostRepository
      * @return Post
      */
     public function update(string $slug, array $data): Post;
+
+    /**
+     * @param string $slug
+     * @return bool
+     */
+    public function delete(string $slug): bool;
 }

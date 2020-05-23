@@ -53,7 +53,9 @@
             <div class="admin-post-actions">
                 <button class="button is-primary" type="submit">{{ __('global.actions.save') }}</button>
                 <a class="button is-danger"
-                   href="{{ route('blog.show', ['slug' => $post->slug]) }}">{{ __('global.actions.discard') }}</a>
+                   href="{{ route('blog.destroy', ['slug' => $post->slug]) }}">{{ __('global.actions.delete') }}</a>
+                <a class="button is-warning"
+                   href="{{ route('blog.show', ['slug' => $post->slug]) }}">{{ __('global.actions.cancel') }}</a>
             </div>
         </form>
     </article>

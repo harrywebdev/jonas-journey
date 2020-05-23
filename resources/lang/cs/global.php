@@ -7,6 +7,8 @@ return [
         'logout'  => 'Odhlásit',
         'save'    => 'Uložit',
         'discard' => 'Zahodit',
+        'cancel'  => 'Zrušit',
+        'delete'  => 'Smazat',
     ],
 
     'login' => [

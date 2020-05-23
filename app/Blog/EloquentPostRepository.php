@@ -86,4 +86,13 @@ class EloquentPostRepository implements PostRepository
 
         return $post;
     }
+
+    /**
+     * @param string $slug
+     * @return bool
+     */
+    public function delete(string $slug): bool
+    {
+        return Post::where('slug', $slug)->firstOrFail()->delete();
+    }
 }

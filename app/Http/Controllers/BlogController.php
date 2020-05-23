@@ -150,10 +150,24 @@ class BlogController extends Controller
      * Remove the specified resource from storage.
      *
      * @param string $slug
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $slug)
     {
-        $this->authorize('delete', Post::class);
+        try {
+            $post = $this->posts->find($slug);
+        } catch (\Exception $e) {
+            abort(404);
+        }
+
+        $this->authorize('delete', $post);
+
+        try {
+            $this->posts->delete($post->slug);
+
+            return redirect()->route('blog.index');
+        } catch (\Exception $e) {
+            return redirect()->route('blog.edit')->withErrors($e->getMessage());
+        }
     }
 }
