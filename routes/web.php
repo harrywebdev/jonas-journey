@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::redirect('/', '/blog')->name('home');
+Route::redirect('/admin', '/login?role=admin');
 
 Route::get('/blog', 'BlogController@index')->name('blog.index');
 Route::get('/blog/{slug}', 'BlogController@show')->name('blog.show');

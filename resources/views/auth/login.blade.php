@@ -7,7 +7,11 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <input type="hidden" name="email" value="{{ config('auth.default_email') }}">
+            @if ($isAdmin)
+                <input type="hidden" name="email" value="{{ config('auth.admin_email') }}">
+            @else
+                <input type="hidden" name="email" value="{{ config('auth.default_email') }}">
+            @endif
 
             <div class="field">
                 <label for="password" class="label">{{ __('global.login.title') }}</label>
