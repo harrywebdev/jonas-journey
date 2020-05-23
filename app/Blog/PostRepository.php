@@ -25,4 +25,11 @@ interface PostRepository
      * @return Post
      */
     public function create(array $data): Post;
+
+    /**
+     * @param string $slug
+     * @param array  $data
+     * @return Post
+     */
+    public function update(string $slug, array $data): Post;
 }

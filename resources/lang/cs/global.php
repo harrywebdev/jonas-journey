@@ -25,6 +25,7 @@ return [
         'go_to_previous_post' => '←',
         'go_to_index'         => 'Rejstřík',
         'add_new'             => 'Přidat zápisek',
+        'edit'                => 'Upravit zápisek',
         'form'                => [
             'date_format'  => 'RRRR-MM-DD',
             'published_on' => 'Datum publikace',

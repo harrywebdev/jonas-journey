@@ -5,7 +5,7 @@
 @section('content')
     @can('create', \App\Blog\Post::class)
         <div class="admin-top-nav">
-            <a href="{{ route('blog.create') }}" class="button is-inverted is-link is-small">{{ __('global.posts.add_new') }}</a>
+            <a href="{{ route('blog.create') }}" class="button is-link is-small">{{ __('global.posts.add_new') }}</a>
         </div>
     @endcan
 

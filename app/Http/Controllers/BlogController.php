@@ -99,11 +99,19 @@ class BlogController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param string $slug
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(string $slug)
     {
-        $this->authorize('update', Post::class);
+        try {
+            $post = $this->posts->find($slug);
+        } catch (\Exception $e) {
+            abort(404);
+        }
+
+        $this->authorize('update', $post);
+
+        return view('blog.edit', ['post' => $post,]);
     }
 
     /**
@@ -111,11 +119,31 @@ class BlogController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param string                   $slug
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, string $slug)
     {
-        $this->authorize('update', Post::class);
+        try {
+            $post = $this->posts->find($slug);
+        } catch (\Exception $e) {
+            abort(404);
+        }
+
+        $this->authorize('update', $post);
+
+        $data = $request->validate([
+            'published_on' => 'required|date_format:Y-m-d',
+            'content'      => 'required|max:65535',
+            'status'       => ['required', Rule::in(['published', 'draft'])],
+        ]);
+
+        try {
+            $post = $this->posts->update($post->slug, $data);
+
+            return redirect()->route('blog.show', ['slug' => $post->slug]);
+        } catch (\Exception $e) {
+            return redirect()->route('blog.edit')->withInput($data)->withErrors($e->getMessage());
+        }
     }
 
     /**

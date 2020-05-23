@@ -21,6 +21,8 @@ Route::get('/blog', 'BlogController@index')->name('blog.index');
 Route::get('/blog/create', 'BlogController@create')->name('blog.create');
 Route::post('/blog/store', 'BlogController@store')->name('blog.store');
 Route::get('/blog/{slug}', 'BlogController@show')->name('blog.show');
+Route::get('/blog/{slug}/edit', 'BlogController@edit')->name('blog.edit');
+Route::put('/blog/{slug}', 'BlogController@update')->name('blog.update');
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');

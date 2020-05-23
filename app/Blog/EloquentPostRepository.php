@@ -69,7 +69,21 @@ class EloquentPostRepository implements PostRepository
         if (!isset($data['slug'])) {
             $data['slug'] = isset($data['title']) && $data['title'] ? Str::slug($data['title']) : $data['published_on'];
         }
-        
+
         return Post::create($data);
+    }
+
+    /**
+     * @param string $slug
+     * @param array  $data
+     * @return Post
+     */
+    public function update(string $slug, array $data): Post
+    {
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $post->fill($data);
+        $post->save();
+
+        return $post;
     }
 }
