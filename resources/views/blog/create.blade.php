@@ -21,20 +21,39 @@
         <form method="POST" action="{{ route('blog.store') }}">
             @csrf
 
-            <input type="hidden" name="status" value="published">
+            <div class="columns">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="published_on" class="label">{{ __('global.posts.form.published_on') }}</label>
+                        <div class="control">
+                            <input id="published_on" type="text"
+                                   class="input @error('published_on') is-danger @enderror"
+                                   name="published_on" required value="{{ old('published_on', $defaultPublishedOn) }}"
+                                   placeholder="{{ __('global.posts.form.date_format') }}">
+                        </div>
 
-            <div class="field">
-                <label for="published_on" class="label">{{ __('global.posts.form.published_on') }}</label>
-                <div class="control">
-                    <input id="published_on" type="text" class="input @error('published_on') is-danger @enderror"
-                           name="published_on" required value="{{ old('published_on', $defaultPublishedOn) }}"
-                           placeholder="{{ __('global.posts.form.date_format') }}">
+                        @error('published_on')
+                        <p class="help is-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
-
-                @error('published_on')
-                <p class="help is-danger">{{ $message }}</p>
-                @enderror
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="status" class="label">{{ __('global.posts.form.status') }}</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="status" id="status">
+                                    <option
+                                        value="published" {{ old('status', 'published') == 'published' ? 'selected' : '' }}>{{ __('global.posts.status.published') }}</option>
+                                    <option
+                                        value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>{{ __('global.posts.status.draft') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
 
             <div class="field">
                 <label for="content" class="label">{{ __('global.posts.form.content') }}</label>

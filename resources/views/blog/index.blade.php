@@ -16,6 +16,10 @@
                     <a class="posts-index__link" href="{{ route('blog.show', ['slug' => $post->slug]) }}">
                         {{ $post->title }}
                     </a>
+
+                    @if ($showPostStatus && $post->status != 'published')
+                        <span class="tag">{{ __('global.posts.status.' . $post->status) }}</span>
+                    @endif
                 </li>
             @endforeach
         </ul>

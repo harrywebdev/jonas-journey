@@ -30,5 +30,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('sees-private', function ($user) {
             return $user->isAdmin;
         });
+
+        Gate::define('sees-drafts', function ($user) {
+            return $user->isAdmin;
+        });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Blog;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class EloquentPostRepository implements PostRepository
@@ -57,7 +58,13 @@ class EloquentPostRepository implements PostRepository
      */
     public function all(): iterable
     {
-        return Post::orderBy('published_on')->get();
+        $posts = Post::orderBy('published_on');
+
+        if (Gate::allows('sees-drafts')) {
+            return $posts->get();
+        }
+
+        return $posts->where('status', '=', 'published')->get();
     }
 
     /**

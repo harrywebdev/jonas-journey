@@ -7,6 +7,7 @@ use App\Blog\PostRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class BlogController extends Controller
@@ -35,7 +36,11 @@ class BlogController extends Controller
 
         $lastPostSlug = Cookie::get('post_last_read', '');
 
-        return view('blog.index', ['posts' => $posts, 'lastPostSlug' => $lastPostSlug]);
+        return view('blog.index', [
+            'posts'          => $posts,
+            'lastPostSlug'   => $lastPostSlug,
+            'showPostStatus' => Gate::allows('sees-drafts'),
+        ]);
     }
 
     /**
@@ -50,7 +55,10 @@ class BlogController extends Controller
             // remember for 2 weeks last Post, so we can show on index where you are
             Cookie::queue('post_last_read', $slug, 60 * 24 * 7 * 2);
 
-            return view('blog.show', ['post' => $post]);
+            return view('blog.show', [
+                'post'           => $post,
+                'showPostStatus' => Gate::allows('sees-drafts'),
+            ]);
         } catch (\Exception $e) {
             abort(404);
         }

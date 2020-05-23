@@ -22,19 +22,39 @@
             @csrf
 
             <input type="hidden" name="_method" value="PUT">
-            <input type="hidden" name="status" value="{{ $post->status }}">
 
-            <div class="field">
-                <label for="published_on" class="label">{{ __('global.posts.form.published_on') }}</label>
-                <div class="control">
-                    <input id="published_on" type="text" class="input @error('published_on') is-danger @enderror"
-                           name="published_on" required value="{{ old('published_on', $post->published_on->format('Y-m-d')) }}"
-                           placeholder="{{ __('global.posts.form.date_format') }}">
+            <div class="columns">
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="published_on" class="label">{{ __('global.posts.form.published_on') }}</label>
+                        <div class="control">
+                            <input id="published_on" type="text"
+                                   class="input @error('published_on') is-danger @enderror"
+                                   name="published_on" required
+                                   value="{{ old('published_on', $post->published_on->format('Y-m-d')) }}"
+                                   placeholder="{{ __('global.posts.form.date_format') }}">
+                        </div>
+
+                        @error('published_on')
+                        <p class="help is-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
-
-                @error('published_on')
-                <p class="help is-danger">{{ $message }}</p>
-                @enderror
+                <div class="column is-6">
+                    <div class="field">
+                        <label for="status" class="label">{{ __('global.posts.form.status') }}</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="status" id="status">
+                                    <option
+                                        value="published" {{ old('status', $post->status) == 'published' ? 'selected' : '' }}>{{ __('global.posts.status.published') }}</option>
+                                    <option
+                                        value="draft" {{ old('status', $post->status) == 'draft' ? 'selected' : '' }}>{{ __('global.posts.status.draft') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="field">

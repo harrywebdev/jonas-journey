@@ -5,12 +5,19 @@
 @section('content')
     @can('update', $post)
         <div class="admin-top-nav">
-            <a href="{{ route('blog.edit', ['slug' => $post->slug]) }}" class="button is-link is-small">{{ __('global.posts.edit') }}</a>
+            <a href="{{ route('blog.edit', ['slug' => $post->slug]) }}"
+               class="button is-link is-small">{{ __('global.posts.edit') }}</a>
         </div>
     @endcan
 
     <article class="blog-post content">
-        <h2>{{ $post->title }}</h2>
+        <h2>
+            {{ $post->title }}
+
+            @if ($showPostStatus)
+                <span class="tag">{{ __('global.posts.status.' . $post->status) }}</span>
+            @endif
+        </h2>
         {!! $post->content_html !!}
     </article>
 

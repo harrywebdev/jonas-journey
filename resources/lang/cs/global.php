@@ -22,6 +22,7 @@ return [
     ],
 
     'posts' => [
+        'day'                 => 'den',
         'is_empty'            => 'Nejsou tu zatím žádné zápisky.',
         'go_to_next_post'     => '→',
         'go_to_previous_post' => '←',
@@ -32,6 +33,11 @@ return [
             'date_format'  => 'RRRR-MM-DD',
             'published_on' => 'Datum publikace',
             'content'      => 'Obsah',
+            'status'       => 'Stav',
+        ],
+        'status'              => [
+            'published' => 'Publikováno',
+            'draft'     => 'Koncept',
         ],
     ],
 
