@@ -30,9 +30,9 @@ Route::post('/image', function (\Illuminate\Http\Request $request) {
         'file' => 'required|file',
     ]);
 
-    $path = $request->file->store('public/media');
+    $path = $request->file->storeAs('public/media', sha1_file($request->file->path()) . '.' . $request->file->extension());
 
-    return response()->json(['image' => ['path' => 'storage/media/' . basename($path)]]);
+    return response()->json(['image' => ['path' => '/storage/media/' . basename($path)]]);
 });
 
 Auth::routes();

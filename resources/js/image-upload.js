@@ -26,7 +26,7 @@ async function uploadImage(targetTextArea, file) {
 
         var data = await response.json();
         if (data && data.image && data.image.path) {
-            var text = `![](/${data.image.path})`;
+            var text = `![](${data.image.path})`;
             targetTextArea.value += "\n\n" + text;
             await navigator.clipboard.writeText(text);
             return;
