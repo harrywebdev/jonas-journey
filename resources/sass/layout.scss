@@ -1,169 +1,212 @@
 html, body {
-  background-color: $color-body-bg;
-  color: $color-body-text;
-  font-family: $font-family-serif;
-  font-weight: 400;
-  margin: 0;
-  font-size: $font-size-base-mobile;
-  line-height: $line-height-base;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 100%;
+    background-color: $color-body-bg;
+    color: $color-body-text;
+    font-family: $font-family-serif;
+    font-weight: 400;
+    margin: 0;
+    font-size: $font-size-base-mobile;
+    line-height: $line-height-base;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
 
-  @include screen-gt-xs {
-    font-size: $font-size-base-desktop;
-  }
+    @include screen-gt-xs {
+        font-size: $font-size-base-desktop;
+    }
 }
 
 h1.title {
-  margin: 0 !important;
-  padding: 2rem 1rem 1rem;
-  font-size: 2rem;
+    margin: 0 !important;
+    padding: 2rem 1rem 1rem;
+    font-size: 2rem;
 
-  @include screen-gt-xs {
-    font-size: 3rem;
-  }
+    @include screen-gt-xs {
+        font-size: 3rem;
+    }
 
-  a {
-    color: $color-secondary;
-  }
+    a {
+        color: $color-secondary;
+    }
+}
+
+.post-editable {
+    border: 2px dashed transparent;
+
+    &.highlight {
+        border: 2px dashed $color-primary;
+        background: $color-border;
+    }
 }
 
 .blog-post h2 {
-  font-size: 1.4em;
-  font-weight: 600;
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  border-bottom: 1px solid $color-border;
-  padding-bottom: 0.1em;
+    font-size: 1.4em;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid $color-border;
+    padding-bottom: 0.1em;
 
-  @include screen-gt-xs {
-    font-size: 1.5em;
-  }
+    @include screen-gt-xs {
+        font-size: 1.5em;
+    }
 }
 
 a {
-  color: $color-primary;
+    color: $color-primary;
 }
 
 video {
-  width: 100%;
-  height: auto;
-  max-height: 480px;
+    width: 100%;
+    height: auto;
+    max-height: 480px;
 }
 
 img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 .blog-post figure {
-  box-shadow: 0 0 10px 5px #f5f5f5;
-  padding: 8px;
-  margin-left: 0;
-  margin-right: 0;
+    box-shadow: 0 0 10px 5px #f5f5f5;
+    padding: 8px;
+    margin-left: 0;
+    margin-right: 0;
 
-  @include screen-gt-xs {
-    margin-left: 2em;
-    margin-right: 2em;
-  }
+    @include screen-gt-xs {
+        margin-left: 2em;
+        margin-right: 2em;
+    }
 }
 
 figcaption {
-  padding: 8px 12px 16px;
-  font-size: 0.75em;
-  color: $color-grey-text;
-  text-align: center;
+    padding: 8px 12px 16px;
+    font-size: 0.75em;
+    color: $color-grey-text;
+    text-align: center;
 }
 
 pre {
-  background: $color-contrast-bg;
-  color: $color-contrast-text;
-  padding: 1em;
-  border-radius: 5px;
-  margin-bottom: 0.5em;
+    background: $color-contrast-bg;
+    color: $color-contrast-text;
+    padding: 1em;
+    border-radius: 5px;
+    margin-bottom: 0.5em;
 }
 
 .container {
-  max-width: 100%;
-  flex-shrink: 1;
+    max-width: 100%;
+    flex-shrink: 1;
 
-  @include screen-gt-xs {
-    width: $container-max-width;
-  }
+    @include screen-gt-xs {
+        width: $container-max-width;
+    }
 }
 
 .main-content {
-  background: $color-content-bg;
-  padding: 2rem 1rem;
+    background: $color-content-bg;
+    padding: 2rem 1rem;
+    position: relative;
 }
 
 .post-footer {
-  border-top: 1px solid $color-border;
-  margin-top: 1em;
+    border-top: 1px solid $color-border;
+    margin-top: 1em;
 }
 
 .post-pagination {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5em;
-  font-size: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em;
+    font-size: 1em;
 
-  span, a {
-    flex: 1 1 33%;
-  }
+    span, a {
+        flex: 1 1 33%;
+    }
 
-  @include screen-gt-xs {
-    padding: 1em;
-  }
+    @include screen-gt-xs {
+        padding: 1em;
+    }
 }
 
 .post-pagination__next {
-  text-align: right;
+    text-align: right;
 }
 
 .post-pagination__index {
-  text-align: center;
-  font-size: 0.8em;
+    text-align: center;
+    font-size: 0.8em;
 }
 
 .login-form {
-  max-width: 300px;
+    max-width: 300px;
 }
 
 .footer {
-  text-align: center;
-  padding: 1em;
-  font-size: 1rem;
-  background-color: $color-body-bg;
-  color: $color-body-text;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+    text-align: center;
+    padding: 1em;
+    font-size: 1rem;
+    background-color: $color-body-bg;
+    color: $color-body-text;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .posts-index__item {
-  padding-left: 20px;
-  position: relative;
+    padding-left: 20px;
+    position: relative;
 
-  &.has-pointer:before {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    content: "→";
-    color: $color-grey-text;
-    font-size: 0.65em;
-    transform: translateY(-50%);
-  }
+    &.has-pointer:before {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        content: "→";
+        color: $color-grey-text;
+        font-size: 0.65em;
+        transform: translateY(-50%);
+    }
 }
 
 .posts-index__link {
-  &:visited {
-    color: $color-secondary;
-  }
+    &:visited {
+        color: $color-secondary;
+    }
+}
+
+.admin-top-nav {
+    position: absolute;
+    top: 0;
+    right: 2px;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: end;
+}
+
+.admin-post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+.admin-image-gallery {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+    overflow: auto;
+
+    img {
+        width: auto;
+        height: 100px;
+        display: block;
+        margin: 1rem;
+        flex: 0 0 auto;
+    }
 }

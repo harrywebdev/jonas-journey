@@ -3,6 +3,12 @@
 @section('title', 'Blog')
 
 @section('content')
+    @can('create', \App\Blog\Post::class)
+        <div class="admin-top-nav">
+            <a href="{{ route('blog.create') }}" class="button is-link is-small">{{ __('global.posts.add_new') }}</a>
+        </div>
+    @endcan
+
     @if ($posts->count())
         <ul>
             @foreach ($posts as $post)
@@ -10,6 +16,10 @@
                     <a class="posts-index__link" href="{{ route('blog.show', ['slug' => $post->slug]) }}">
                         {{ $post->title }}
                     </a>
+
+                    @if ($showPostStatus && $post->status != 'published')
+                        <span class="tag">{{ __('global.posts.status.' . $post->status) }}</span>
+                    @endif
                 </li>
             @endforeach
         </ul>

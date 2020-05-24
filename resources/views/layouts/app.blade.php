@@ -37,7 +37,12 @@
     </p>
 
     @auth
-    <p><a href="{{ route('logout') }}">{{ __('global.actions.logout') }}</a></p>
+    <p>
+        @if($isAdmin)
+            (Admin)
+        @endif
+        <a href="{{ route('logout') }}">{{ __('global.actions.logout') }}</a>
+    </p>
     @endauth
 </footer>
 
@@ -45,9 +50,11 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165287556-1"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
+
     function gtag() {
         dataLayer.push(arguments);
     }
+
     gtag('js', new Date());
     gtag('config', 'UA-165287556-1');
 </script>

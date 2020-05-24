@@ -5,28 +5,53 @@
  */
 
 require('./bootstrap');
+const {preventDefaults, highlight, unhighlight} = require('./utils');
+const {imageUpload} = require('./image-upload');
+const {showGallery} = require('./image-gallery');
 
-window.Vue = require('vue');
+var imageUploadText = document.querySelector('.js-image-upload-textarea');
+if (imageUploadText) {
+    imageUploadText.addEventListener('input', imageUploadTextOnInput);
+    imageUploadTextOnInput.bind(imageUploadText)();
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+    function imageUploadTextOnInput() {
+        var images = this.value.match(/!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/g);
+        if (!images) {
+            return;
+        }
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+        showGallery(images);
+    }
+}
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+var imageUploadInput = document.querySelector('.js-image-upload-input');
+if (imageUploadInput && imageUploadText) {
+    imageUploadInput.addEventListener('change', function imageUploadInputOnChange() {
+        imageUpload(this.files, imageUploadText);
+    });
+}
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+var imageUploadArea = document.querySelector('.js-image-upload-area');
+if (imageUploadArea && imageUploadText) {
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        imageUploadArea.addEventListener(eventName, preventDefaults, false)
+    });
 
-const app = new Vue({
-    el: '#app',
-});
+    ['dragenter', 'dragover'].forEach(eventName => {
+        imageUploadArea.addEventListener(eventName, highlight.bind(this, imageUploadArea), false)
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        imageUploadArea.addEventListener(eventName, unhighlight.bind(this, imageUploadArea), false)
+    });
+
+    imageUploadArea.addEventListener('drop', handleDrop, false)
+
+    function handleDrop(e) {
+        let dt = e.dataTransfer;
+        let files = dt.files;
+
+        imageUpload(files, imageUploadText);
+    }
+}
+
