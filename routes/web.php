@@ -32,7 +32,7 @@ Route::post('/image', function (\Illuminate\Http\Request $request) {
 
     $path = $request->file->store('public/media');
 
-    return response()->json(['image' => ['path' => $path]]);
+    return response()->json(['image' => ['path' => 'storage/media/' . basename($path)]]);
 });
 
 Auth::routes();

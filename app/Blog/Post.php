@@ -50,4 +50,12 @@ class Post extends Model
     {
         return app()->make(PostContentRenderer::class)->render($this->attributes['content']);
     }
+
+    /**
+     * @return string
+     */
+    public function getContentAttribute(): string
+    {
+        return str_replace('/assets/img', '/storage/media', $this->attributes['content']);
+    }
 }

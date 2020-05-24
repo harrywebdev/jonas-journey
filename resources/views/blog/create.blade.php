@@ -69,6 +69,8 @@
                 @enderror
             </div>
 
+            <div class="js-image-gallery admin-image-gallery"></div>
+
             <div class="field">
                 <div class="file is-small">
                     <label class="file-label">

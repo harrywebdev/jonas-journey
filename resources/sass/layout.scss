@@ -193,3 +193,20 @@ pre {
     justify-content: space-between;
     margin: 1rem 0;
 }
+
+.admin-image-gallery {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+    overflow: auto;
+
+    img {
+        width: auto;
+        height: 100px;
+        display: block;
+        margin: 1rem;
+        flex: 0 0 auto;
+    }
+}

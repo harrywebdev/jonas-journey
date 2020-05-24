@@ -7,12 +7,26 @@
 require('./bootstrap');
 const {preventDefaults, highlight, unhighlight} = require('./utils');
 const {imageUpload} = require('./image-upload');
+const {showGallery} = require('./image-gallery');
 
 var imageUploadText = document.querySelector('.js-image-upload-textarea');
+if (imageUploadText) {
+    imageUploadText.addEventListener('input', imageUploadTextOnInput);
+    imageUploadTextOnInput.bind(imageUploadText)();
+
+    function imageUploadTextOnInput() {
+        var images = this.value.match(/!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/g);
+        if (!images) {
+            return;
+        }
+
+        showGallery(images);
+    }
+}
 
 var imageUploadInput = document.querySelector('.js-image-upload-input');
 if (imageUploadInput && imageUploadText) {
-    imageUploadInput.addEventListener('change', function () {
+    imageUploadInput.addEventListener('change', function imageUploadInputOnChange() {
         imageUpload(this.files, imageUploadText);
     });
 }
