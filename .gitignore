@@ -1,4 +1,5 @@
 node_modules
+vendor
 /laravel/public
 /laravel/public/storage
 /laravel/public/css

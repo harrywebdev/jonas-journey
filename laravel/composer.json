@@ -6,13 +6,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "deployer/deployer": "^7.0",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "irazasyed/telegram-bot-sdk": "^3.6",
         "laravel/framework": "^9.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "league/commonmark": "^2.2",
-        "deployer/deployer": "^7.0"
+        "league/commonmark": "^2.2"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",
