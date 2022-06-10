@@ -71,7 +71,6 @@ class TelegramBotUpdatesCommand extends Command
             /** @var Message $message */
             $message = $update->getMessage();
 
-
             try {
                 IgnoreNotAllowedSenders::handle($message, $allowedSenderIds);
                 IgnoreTextMessages::handle($message);
@@ -83,6 +82,8 @@ class TelegramBotUpdatesCommand extends Command
 
             // we care about text that is longer than 50 chars (so assuming some kind
             // of better insight/message
+
+            dd($message);
 
             // now process the message
             $this->getOutput()->writeln('Processing msg: ' . $message->getMessageId());

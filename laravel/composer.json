@@ -13,7 +13,8 @@
         "laravel/framework": "^9.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "league/commonmark": "^2.2"
+        "league/commonmark": "^2.2",
+        "myclabs/php-enum": "^1.8"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",
