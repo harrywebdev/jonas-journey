@@ -33,7 +33,6 @@ class TelegramBotCheckCommand extends Command
         $this->telegramApi = $telegramApi;
     }
 
-
     /**
      * Execute the console command.
      *
