@@ -9,6 +9,8 @@ use Illuminate\Mail\Markdown;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Symfony\Component\Mailer\Header\MetadataHeader;
+use Symfony\Component\Mailer\Header\TagHeader;
 
 class MailChannel
 {
@@ -115,7 +117,8 @@ class MailChannel
             '__laravel_notification_id' => $notification->id,
             '__laravel_notification' => get_class($notification),
             '__laravel_notification_queued' => in_array(
-                ShouldQueue::class, class_implements($notification)
+                ShouldQueue::class,
+                class_implements($notification)
             ),
         ];
     }
@@ -140,7 +143,19 @@ class MailChannel
         $this->addAttachments($mailMessage, $message);
 
         if (! is_null($message->priority)) {
-            $mailMessage->setPriority($message->priority);
+            $mailMessage->priority($message->priority);
+        }
+
+        if ($message->tags) {
+            foreach ($message->tags as $tag) {
+                $mailMessage->getHeaders()->add(new TagHeader($tag));
+            }
+        }
+
+        if ($message->metadata) {
+            foreach ($message->metadata as $key => $value) {
+                $mailMessage->getHeaders()->add(new MetadataHeader($key, $value));
+            }
         }
 
         $this->runCallbacks($mailMessage, $message);
@@ -243,7 +258,7 @@ class MailChannel
     protected function runCallbacks($mailMessage, $message)
     {
         foreach ($message->callbacks as $callback) {
-            $callback($mailMessage->getSwiftMessage());
+            $callback($mailMessage->getSymfonyMessage());
         }
 
         return $this;

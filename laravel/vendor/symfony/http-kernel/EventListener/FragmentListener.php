@@ -34,7 +34,7 @@ use Symfony\Component\HttpKernel\UriSigner;
 class FragmentListener implements EventSubscriberInterface
 {
     private $signer;
-    private $fragmentPath;
+    private string $fragmentPath;
 
     /**
      * @param string $fragmentPath The path that triggers this listener
@@ -65,7 +65,7 @@ class FragmentListener implements EventSubscriberInterface
             return;
         }
 
-        if ($event->isMasterRequest()) {
+        if ($event->isMainRequest()) {
             $this->validateRequest($request);
         }
 
@@ -83,8 +83,7 @@ class FragmentListener implements EventSubscriberInterface
         }
 
         // is the Request signed?
-        // we cannot use $request->getUri() here as we want to work with the original URI (no query string reordering)
-        if ($this->signer->check($request->getSchemeAndHttpHost().$request->getBaseUrl().$request->getPathInfo().(null !== ($qs = $request->server->get('QUERY_STRING')) ? '?'.$qs : ''))) {
+        if ($this->signer->checkRequest($request)) {
             return;
         }
 

@@ -26,13 +26,23 @@ class UnixPipes extends AbstractPipes
     private $ptyMode;
     private $haveReadSupport;
 
-    public function __construct(?bool $ttyMode, bool $ptyMode, $input, bool $haveReadSupport)
+    public function __construct(?bool $ttyMode, bool $ptyMode, mixed $input, bool $haveReadSupport)
     {
         $this->ttyMode = $ttyMode;
         $this->ptyMode = $ptyMode;
         $this->haveReadSupport = $haveReadSupport;
 
         parent::__construct($input);
+    }
+
+    public function __sleep(): array
+    {
+        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
+    }
+
+    public function __wakeup()
+    {
+        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }
 
     public function __destruct()
@@ -118,7 +128,7 @@ class UnixPipes extends AbstractPipes
             $read[$type = array_search($pipe, $this->pipes, true)] = '';
 
             do {
-                $data = fread($pipe, self::CHUNK_SIZE);
+                $data = @fread($pipe, self::CHUNK_SIZE);
                 $read[$type] .= $data;
             } while (isset($data[0]) && ($close || isset($data[self::CHUNK_SIZE - 1])));
 

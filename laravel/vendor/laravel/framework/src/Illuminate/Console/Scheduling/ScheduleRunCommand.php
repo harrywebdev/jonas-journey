@@ -3,14 +3,17 @@
 namespace Illuminate\Console\Scheduling;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\Events\ScheduledTaskFailed;
 use Illuminate\Console\Events\ScheduledTaskFinished;
 use Illuminate\Console\Events\ScheduledTaskSkipped;
 use Illuminate\Console\Events\ScheduledTaskStarting;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Date;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Throwable;
 
+#[AsCommand(name: 'schedule:run')]
 class ScheduleRunCommand extends Command
 {
     /**
@@ -19,6 +22,17 @@ class ScheduleRunCommand extends Command
      * @var string
      */
     protected $name = 'schedule:run';
+
+    /**
+     * The name of the console command.
+     *
+     * This name is used to identify the command during lazy loading.
+     *
+     * @var string|null
+     *
+     * @deprecated
+     */
+    protected static $defaultName = 'schedule:run';
 
     /**
      * The console command description.
@@ -132,7 +146,7 @@ class ScheduleRunCommand extends Command
      */
     protected function runEvent($event)
     {
-        $this->line('<info>Running scheduled command:</info> '.$event->getSummaryForDisplay());
+        $this->line('<info>['.date('c').'] Running scheduled command:</info> '.$event->getSummaryForDisplay());
 
         $this->dispatcher->dispatch(new ScheduledTaskStarting($event));
 
@@ -148,6 +162,8 @@ class ScheduleRunCommand extends Command
 
             $this->eventsRan = true;
         } catch (Throwable $e) {
+            $this->dispatcher->dispatch(new ScheduledTaskFailed($event, $e));
+
             $this->handler->report($e);
         }
     }

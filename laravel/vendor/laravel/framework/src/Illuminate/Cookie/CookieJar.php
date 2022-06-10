@@ -119,7 +119,7 @@ class CookieJar implements JarContract
      * @param  string  $key
      * @param  mixed  $default
      * @param  string|null  $path
-     * @return \Symfony\Component\HttpFoundation\Cookie
+     * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
     public function queued($key, $default = null, $path = null)
     {
@@ -143,7 +143,7 @@ class CookieJar implements JarContract
         if (isset($parameters[0]) && $parameters[0] instanceof Cookie) {
             $cookie = $parameters[0];
         } else {
-            $cookie = $this->make(...$parameters);
+            $cookie = $this->make(...array_values($parameters));
         }
 
         if (! isset($this->queued[$cookie->getName()])) {
@@ -151,6 +151,19 @@ class CookieJar implements JarContract
         }
 
         $this->queued[$cookie->getName()][$cookie->getPath()] = $cookie;
+    }
+
+    /**
+     * Queue a cookie to expire with the next response.
+     *
+     * @param  string  $name
+     * @param  string|null  $path
+     * @param  string|null  $domain
+     * @return void
+     */
+    public function expire($name, $path = null, $domain = null)
+    {
+        $this->queue($this->forget($name, $path, $domain));
     }
 
     /**
@@ -213,5 +226,17 @@ class CookieJar implements JarContract
     public function getQueuedCookies()
     {
         return Arr::flatten($this->queued);
+    }
+
+    /**
+     * Flush the cookies which have been queued for the next request.
+     *
+     * @return $this
+     */
+    public function flushQueuedCookies()
+    {
+        $this->queued = [];
+
+        return $this;
     }
 }

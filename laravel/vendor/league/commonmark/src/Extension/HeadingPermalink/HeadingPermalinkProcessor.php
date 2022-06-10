@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the league/commonmark package.
  *
@@ -11,60 +13,61 @@
 
 namespace League\CommonMark\Extension\HeadingPermalink;
 
-use League\CommonMark\Block\Element\Heading;
+use League\CommonMark\Environment\EnvironmentAwareInterface;
+use League\CommonMark\Environment\EnvironmentInterface;
 use League\CommonMark\Event\DocumentParsedEvent;
-use League\CommonMark\Extension\HeadingPermalink\Slug\DefaultSlugGenerator;
-use League\CommonMark\Extension\HeadingPermalink\Slug\SlugGeneratorInterface;
-use League\CommonMark\Inline\Element\Code;
-use League\CommonMark\Inline\Element\Text;
-use League\CommonMark\Node\Node;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
+use League\CommonMark\Node\NodeIterator;
+use League\CommonMark\Node\RawMarkupContainerInterface;
+use League\CommonMark\Node\StringContainerHelper;
+use League\CommonMark\Normalizer\TextNormalizerInterface;
+use League\Config\ConfigurationInterface;
 
 /**
  * Searches the Document for Heading elements and adds HeadingPermalinks to each one
  */
-final class HeadingPermalinkProcessor implements ConfigurationAwareInterface
+final class HeadingPermalinkProcessor implements EnvironmentAwareInterface
 {
-    const INSERT_BEFORE = 'before';
-    const INSERT_AFTER = 'after';
+    public const INSERT_BEFORE = 'before';
+    public const INSERT_AFTER  = 'after';
 
-    /** @var SlugGeneratorInterface */
-    private $slugGenerator;
+    /** @psalm-readonly-allow-private-mutation */
+    private TextNormalizerInterface $slugNormalizer;
 
-    /** @var ConfigurationInterface */
-    private $config;
+    /** @psalm-readonly-allow-private-mutation */
+    private ConfigurationInterface $config;
 
-    public function __construct(SlugGeneratorInterface $slugGenerator = null)
+    public function setEnvironment(EnvironmentInterface $environment): void
     {
-        $this->slugGenerator = $slugGenerator ?? new DefaultSlugGenerator();
-    }
-
-    public function setConfiguration(ConfigurationInterface $configuration)
-    {
-        $this->config = $configuration;
+        $this->config         = $environment->getConfiguration();
+        $this->slugNormalizer = $environment->getSlugNormalizer();
     }
 
     public function __invoke(DocumentParsedEvent $e): void
     {
-        $walker = $e->getDocument()->walker();
+        $min = (int) $this->config->get('heading_permalink/min_heading_level');
+        $max = (int) $this->config->get('heading_permalink/max_heading_level');
 
-        while ($event = $walker->next()) {
-            $node = $event->getNode();
-            if ($node instanceof Heading && $event->isEntering()) {
-                $this->addHeadingLink($node);
+        $slugLength = (int) $this->config->get('slug_normalizer/max_length');
+
+        foreach ($e->getDocument()->iterator(NodeIterator::FLAG_BLOCKS_ONLY) as $node) {
+            if ($node instanceof Heading && $node->getLevel() >= $min && $node->getLevel() <= $max) {
+                $this->addHeadingLink($node, $slugLength);
             }
         }
     }
 
-    private function addHeadingLink(Heading $heading): void
+    private function addHeadingLink(Heading $heading, int $slugLength): void
     {
-        $text = $this->getChildText($heading);
-        $slug = $this->slugGenerator->createSlug($text);
+        $text = StringContainerHelper::getChildText($heading, [RawMarkupContainerInterface::class]);
+        $slug = $this->slugNormalizer->normalize($text, [
+            'node' => $heading,
+            'length' => $slugLength,
+        ]);
 
         $headingLinkAnchor = new HeadingPermalink($slug);
 
-        switch ($this->config->get('heading_permalink/insert', 'before')) {
+        switch ($this->config->get('heading_permalink/insert')) {
             case self::INSERT_BEFORE:
                 $heading->prependChild($headingLinkAnchor);
 
@@ -76,19 +79,5 @@ final class HeadingPermalinkProcessor implements ConfigurationAwareInterface
             default:
                 throw new \RuntimeException("Invalid configuration value for heading_permalink/insert; expected 'before' or 'after'");
         }
-    }
-
-    private function getChildText(Node $node): string
-    {
-        $text = '';
-
-        $walker = $node->walker();
-        while ($event = $walker->next()) {
-            if ($event->isEntering() && (($child = $event->getNode()) instanceof Text || $child instanceof Code)) {
-                $text .= $child->getContent();
-            }
-        }
-
-        return $text;
     }
 }

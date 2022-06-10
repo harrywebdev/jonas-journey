@@ -2,7 +2,9 @@
 
 namespace Illuminate\View\Compilers\Concerns;
 
+use Illuminate\Contracts\Support\CanBeEscapedWhenCastToString;
 use Illuminate\Support\Str;
+use Illuminate\View\ComponentAttributeBag;
 
 trait CompilesComponents
 {
@@ -21,16 +23,16 @@ trait CompilesComponents
      */
     protected function compileComponent($expression)
     {
-        [$component, $data] = strpos($expression, ',') !== false
-                    ? array_map('trim', explode(',', trim($expression, '()'), 2))
-                    : [trim($expression, '()'), ''];
+        [$component, $alias, $data] = str_contains($expression, ',')
+                    ? array_map('trim', explode(',', trim($expression, '()'), 3)) + ['', '', '']
+                    : [trim($expression, '()'), '', ''];
 
         $component = trim($component, '\'"');
 
         $hash = static::newComponentHash($component);
 
         if (Str::contains($component, ['::class', '\\'])) {
-            return static::compileClassComponentOpening($component, $data, $hash);
+            return static::compileClassComponentOpening($component, $alias, $data, $hash);
         }
 
         return "<?php \$__env->startComponent{$expression}; ?>";
@@ -53,15 +55,17 @@ trait CompilesComponents
      * Compile a class component opening.
      *
      * @param  string  $component
+     * @param  string  $alias
      * @param  string  $data
      * @param  string  $hash
      * @return string
      */
-    public static function compileClassComponentOpening(string $component, string $data, string $hash)
+    public static function compileClassComponentOpening(string $component, string $alias, string $data, string $hash)
     {
         return implode("\n", [
             '<?php if (isset($component)) { $__componentOriginal'.$hash.' = $component; } ?>',
-            '<?php $component = $__env->getContainer()->make('.Str::finish($component, '::class').', '.($data ?: '[]').'); ?>',
+            '<?php $component = $__env->getContainer()->make('.Str::finish($component, '::class').', '.($data ?: '[]').' + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>',
+            '<?php $component->withName('.$alias.'); ?>',
             '<?php if ($component->shouldRender()): ?>',
             '<?php $__env->startComponent($component->resolveView(), $component->data()); ?>',
         ]);
@@ -74,15 +78,7 @@ trait CompilesComponents
      */
     protected function compileEndComponent()
     {
-        $hash = array_pop(static::$componentHashStack);
-
-        return implode("\n", [
-            '<?php if (isset($__componentOriginal'.$hash.')): ?>',
-            '<?php $component = $__componentOriginal'.$hash.'; ?>',
-            '<?php unset($__componentOriginal'.$hash.'); ?>',
-            '<?php endif; ?>',
-            '<?php echo $__env->renderComponent(); ?>',
-        ]);
+        return '<?php echo $__env->renderComponent(); ?>';
     }
 
     /**
@@ -92,7 +88,13 @@ trait CompilesComponents
      */
     public function compileEndComponentClass()
     {
-        return static::compileEndComponent()."\n".implode("\n", [
+        $hash = array_pop(static::$componentHashStack);
+
+        return $this->compileEndComponent()."\n".implode("\n", [
+            '<?php endif; ?>',
+            '<?php if (isset($__componentOriginal'.$hash.')): ?>',
+            '<?php $component = $__componentOriginal'.$hash.'; ?>',
+            '<?php unset($__componentOriginal'.$hash.'); ?>',
             '<?php endif; ?>',
         ]);
     }
@@ -147,7 +149,10 @@ trait CompilesComponents
      */
     protected function compileProps($expression)
     {
-        return "<?php \$attributes = \$attributes->exceptProps{$expression}; ?>
+        return "<?php foreach(\$attributes->onlyProps{$expression} as \$__key => \$__value) {
+    \$\$__key = \$\$__key ?? \$__value;
+} ?>
+<?php \$attributes = \$attributes->exceptProps{$expression}; ?>
 <?php foreach (array_filter({$expression}, 'is_string', ARRAY_FILTER_USE_KEY) as \$__key => \$__value) {
     \$\$__key = \$\$__key ?? \$__value;
 } ?>
@@ -159,6 +164,20 @@ trait CompilesComponents
     }
 
     /**
+     * Compile the aware statement into valid PHP.
+     *
+     * @param  string  $expression
+     * @return string
+     */
+    protected function compileAware($expression)
+    {
+        return "<?php foreach ({$expression} as \$__key => \$__value) {
+    \$__consumeVariable = is_string(\$__key) ? \$__key : \$__value;
+    \$\$__consumeVariable = is_string(\$__key) ? \$__env->getConsumableComponentData(\$__key, \$__value) : \$__env->getConsumableComponentData(\$__value);
+} ?>";
+    }
+
+    /**
      * Sanitize the given component attribute value.
      *
      * @param  mixed  $value
@@ -166,8 +185,12 @@ trait CompilesComponents
      */
     public static function sanitizeComponentAttribute($value)
     {
+        if ($value instanceof CanBeEscapedWhenCastToString) {
+            return $value->escapeWhenCastingToString();
+        }
+
         return is_string($value) ||
-               (is_object($value) && method_exists($value, '__toString'))
+               (is_object($value) && ! $value instanceof ComponentAttributeBag && method_exists($value, '__toString'))
                         ? e($value)
                         : $value;
     }
